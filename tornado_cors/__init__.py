@@ -23,8 +23,13 @@ class CorsMixin(object):
     CORS_EXPOSE_HEADERS = None
 
     def set_default_headers(self):
-        if self.CORS_ORIGIN:
-            self.set_header("Access-Control-Allow-Origin", self.CORS_ORIGIN)
+        #if self.CORS_ORIGIN:
+        #   self.set_header("Access-Control-Allow-Origin", self.CORS_ORIGIN)
+
+        origin = self.request.headers.get('Origin')
+        if origin is not None:
+            self.set_header("Access-Control-Allow-Origin", self.request.headers.get('Origin'))
+
 
         if self.CORS_EXPOSE_HEADERS:
             self.set_header('Access-Control-Expose-Headers', self.CORS_EXPOSE_HEADERS)
@@ -62,3 +67,4 @@ class CorsMixin(object):
                 methods.append(meth.upper())
 
         return ", ".join(methods)
+
